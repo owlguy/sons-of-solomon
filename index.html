@@ -17,6 +17,9 @@
         <h2 id="period-title">Loading...</h2>
         <button class="nav-arrow" onclick="navigatePeriod(1)">→</button>
       </div>
+      <div class="auto-mode-controls">
+        <button class="auto-mode-btn" onclick="enableAutoMode()" title="Return to automatic time-based detection">Auto</button>
+      </div>
     </header>
 
     <main>
@@ -404,6 +407,8 @@
         appSettings.manualPeriod = newPeriod;
         localStorage.setItem('appSettings', JSON.stringify(appSettings));
         
+        // Update tracking variable for manual override
+        currentDisplayedPeriod = newPeriod;
         displayPsalms();
       }
 
@@ -539,15 +544,52 @@
         toggleSettings();
       });
 
+      // Track current period for change detection
+      let currentDisplayedPeriod = null;
+
+      function checkForPeriodChange() {
+        const appSettings = JSON.parse(localStorage.getItem('appSettings')) || { manualPeriod: null };
+        
+        // If manually overridden, don't auto-update
+        if (appSettings.manualPeriod) {
+          return;
+        }
+
+        const newPeriod = getCurrentPeriod();
+        
+        // Only refresh if the period has actually changed
+        if (newPeriod !== currentDisplayedPeriod) {
+          console.log(`Period changed from ${currentDisplayedPeriod} to ${newPeriod}`);
+          currentDisplayedPeriod = newPeriod;
+          displayPsalms();
+        }
+      }
+
+      function enhancedDisplayPsalms() {
+        const appSettings = JSON.parse(localStorage.getItem('appSettings')) || { manualPeriod: null };
+        currentDisplayedPeriod = appSettings.manualPeriod || getCurrentPeriod();
+        displayPsalms();
+      }
+
+      function enableAutoMode() {
+        const appSettings = JSON.parse(localStorage.getItem('appSettings')) || {};
+        appSettings.manualPeriod = null;
+        localStorage.setItem('appSettings', JSON.stringify(appSettings));
+        
+        // Reset to current time-based period
+        currentDisplayedPeriod = getCurrentPeriod();
+        displayPsalms();
+      }
+
       // Initialize
       const savedTheme = localStorage.getItem("theme") || "dark";
       document.body.classList.add(savedTheme);
       loadSettings();
       applyFontSize();
-      displayPsalms();
+      enhancedDisplayPsalms();
 
-      // Update every minute
-      setInterval(displayPsalms, 60000);
+      // Check for period changes every minute
+      setInterval(checkForPeriodChange, 60000);
     </script>
   </body>
 </html>

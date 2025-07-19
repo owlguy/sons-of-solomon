@@ -432,3 +432,15 @@ body.font-extra-large .psalm .verse {
     font-variant: small-caps;
     font-weight: normal;
 }
+
+
+/* Alternating line indentation */
+.line-even {
+    display: inline;
+    padding-left: 0;
+}
+
+.line-odd {
+    display: inline;
+    padding-left: 2rem;
+}

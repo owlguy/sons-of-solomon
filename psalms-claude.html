@@ -230,6 +230,14 @@
             }
         }
 
+        function formatVerseLines(verse) {
+            const lines = processText(verse).split('\n');
+            return lines.map((line, index) => {
+                const className = index % 2 === 0 ? 'line-even' : 'line-odd';
+                return `<span class="${className}">${line}</span>`;
+            }).join('<br>');
+        }
+
         function renderPsalm(psalmNum) {
             const psalm = psalms[psalmNum];
             const psalmElement = document.createElement('div');
@@ -239,7 +247,7 @@
                 <h3>Psalm ${psalmNum}</h3>
                 <h4>${processText(psalm.title)}</h4>
                 <p class="subtitle">${processText(psalm.subtitle)}</p>
-                ${psalm.verses.map(verse => `<p class="verse">${processText(verse).replace(/\n/g, '<br>')}</p>`).join('')}
+                ${psalm.verses.map(verse => `<p class="verse">${formatVerseLines(verse)}</p>`).join('')}
             `;
             
             return psalmElement;

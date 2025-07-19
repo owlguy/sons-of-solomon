@@ -47,7 +47,8 @@ body.dark button:hover {
     background-color: #505050;
 }
 
-body.dark input[type="time"] {
+body.dark input[type="time"],
+body.dark select {
     background-color: #404040;
     color: #e8e8e8;
     border: 1px solid #666;
@@ -88,7 +89,8 @@ body.light button:hover {
     background-color: #e0e0e0;
 }
 
-body.light input[type="time"] {
+body.light input[type="time"],
+body.light select {
     background-color: #fff;
     color: #333;
     border: 1px solid #ccc;
@@ -246,11 +248,32 @@ button:hover {
     justify-content: center;
 }
 
-input[type="time"] {
+input[type="time"],
+select {
     padding: 0.5rem;
     border-radius: 4px;
     font-size: 1rem;
+}
+
+input[type="time"] {
     font-family: monospace;
+}
+
+.setting-group {
+    margin-bottom: 1.5rem;
+}
+
+.setting-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.setting-group select {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+    display: block;
 }
 
 .form-actions {
@@ -312,6 +335,75 @@ input[type="time"] {
     }
 }
 
+/* Font size variations */
+body.font-small {
+    font-size: 0.85rem;
+}
+
+body.font-small header h1 {
+    font-size: 2rem;
+}
+
+body.font-small header h2 {
+    font-size: 1.2rem;
+}
+
+body.font-small .psalm h3 {
+    font-size: 1.4rem;
+}
+
+body.font-small .psalm h4 {
+    font-size: 1rem;
+}
+
+body.font-medium {
+    font-size: 1rem;
+}
+
+body.font-large {
+    font-size: 1.15rem;
+}
+
+body.font-large header h1 {
+    font-size: 3rem;
+}
+
+body.font-large header h2 {
+    font-size: 1.8rem;
+}
+
+body.font-large .psalm h3 {
+    font-size: 2.2rem;
+}
+
+body.font-large .psalm h4 {
+    font-size: 1.4rem;
+}
+
+body.font-extra-large {
+    font-size: 1.3rem;
+}
+
+body.font-extra-large header h1 {
+    font-size: 3.5rem;
+}
+
+body.font-extra-large header h2 {
+    font-size: 2rem;
+}
+
+body.font-extra-large .psalm h3 {
+    font-size: 2.5rem;
+}
+
+body.font-extra-large .psalm h4 {
+    font-size: 1.6rem;
+}
+
+body.font-extra-large .psalm .verse {
+    line-height: 2;
+}
+
 /* Print styles */
 @media print {
     body {
@@ -333,4 +425,10 @@ input[type="time"] {
         page-break-inside: avoid;
         margin-bottom: 1rem;
     }
+}
+
+/* Small caps for Lord */
+.lord-smallcaps {
+    font-variant: small-caps;
+    font-weight: normal;
 }

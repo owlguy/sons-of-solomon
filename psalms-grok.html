@@ -4,81 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sons of Solomon Prayer Psalms</title>
-    <style>
-      body {
-        font-family: serif;
-        margin: 20px;
-        padding: 20px;
-        transition: background-color 0.3s, color 0.3s;
-      }
-      body.dark {
-        background-color: #121212;
-        color: #e0e0e0;
-      }
-      body.light {
-        background-color: #ffffff;
-        color: #000000;
-      }
-      h1,
-      h2,
-      h3,
-      h4 {
-        text-align: center;
-      }
-      pre.psalm {
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        margin-bottom: 2em;
-        padding: 1em;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: rgba(
-          255,
-          255,
-          255,
-          0.1
-        ); /* slight highlight in dark mode */
-      }
-      body.light pre.psalm {
-        border-color: #ddd;
-        background-color: #f9f9f9;
-      }
-      button {
-        margin: 10px;
-        padding: 10px;
-        cursor: pointer;
-      }
-      #settings {
-        display: none;
-        margin-top: 20px;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-      body.light #settings {
-        border-color: #ddd;
-        background-color: #f9f9f9;
-      }
-      body.dark #settings {
-        border-color: #444;
-        background-color: #1e1e1e;
-      }
-      form label {
-        display: block;
-        margin: 10px 0;
-      }
-      .time-inputs {
-        display: flex;
-        justify-content: space-between;
-      }
-    </style>
+    <link rel="stylesheet" href="styles-grok.css" />
   </head>
   <body class="dark">
-    <h1>Sons of Solomon Prayer Discipline</h1>
-    <h2 id="period-title">Loading...</h2>
-    <div id="psalms-content"></div>
-    <button onclick="toggleTheme()">Toggle Light/Dark Mode</button>
-    <button onclick="toggleSettings()">Settings</button>
+    <header>
+      <h1>Sons of Solomon Prayer Discipline</h1>
+      <h2 id="period-title">Loading...</h2>
+    </header>
+    <main id="psalms-content"></main>
+    <footer>
+      <button onclick="toggleTheme()">Toggle Light/Dark Mode</button>
+      <button onclick="toggleSettings()">Settings</button>
+    </footer>
     <div id="settings">
       <h3>Customize Prayer Time Ranges</h3>
       <form id="time-form">

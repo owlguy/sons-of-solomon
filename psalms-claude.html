@@ -78,6 +78,14 @@
           </div>
 
           <div class="setting-group">
+            <label>Bible Version:</label>
+            <select id="bible-version">
+              <option value="niv84" selected>NIV 1984</option>
+              <option value="esv">ESV</option>
+            </select>
+          </div>
+          
+          <div class="setting-group">
             <label>Theme:</label>
             <select id="theme-select">
               <option value="dark" selected>Dark</option>
@@ -98,7 +106,7 @@
     </div>
 
     <script>
-      const psalms = {
+      const psalmsESV = {
         123: {
           title: "Our Eyes Look to the Lord Our God",
           subtitle: "A Song of Ascents",
@@ -184,6 +192,91 @@
         },
       };
 
+      const psalmsNIV84 = {
+        123: {
+          title: "Our Eyes Look to the Lord Our God",
+          subtitle: "A song of ascents",
+          verses: [
+            "I lift up my eyes to you,\n    to you whose throne is in heaven.\nAs the eyes of slaves look to the hand of their master,\n    as the eyes of a maid look to the hand of her mistress,\nso our eyes look to the Lord our God,\n    till he shows us his mercy.",
+            "Have mercy on us, O Lord, have mercy on us,\n    for we have endured much contempt.\nWe have endured much ridicule from the proud,\n    much contempt from the arrogant.",
+          ],
+        },
+        124: {
+          title: "Our Help Is in the Name of the Lord",
+          subtitle: "A song of ascents. Of David.",
+          verses: [
+            "If the Lord had not been on our side—\n    let Israel say—\nif the Lord had not been on our side\n    when men attacked us,\nwhen their anger flared against us,\n    they would have swallowed us alive;",
+            "the flood would have engulfed us,\n    the torrent would have swept over us,\nthe raging waters\n    would have swept us away.",
+            "Praise be to the Lord,\n    who has not let us be torn by their teeth.\nWe have escaped like a bird\n    out of the fowler's snare;\nthe snare has been broken,\n    and we have escaped.",
+            "Our help is in the name of the Lord,\n    the Maker of heaven and earth.",
+          ],
+        },
+        125: {
+          title: "The Lord Surrounds His People",
+          subtitle: "A song of ascents",
+          verses: [
+            "Those who trust in the Lord are like Mount Zion,\n    which cannot be shaken but endures forever.\nAs the mountains surround Jerusalem,\n    so the Lord surrounds his people\n    both now and forevermore.",
+            "The scepter of the wicked will not remain\n    over the land allotted to the righteous,\nfor then the righteous might use\n    their hands to do evil.",
+            "Do good, O Lord, to those who are good,\n    to those who are upright in heart.\nBut those who turn to crooked ways\n    the Lord will banish with the evildoers.\nPeace be upon Israel.",
+          ],
+        },
+        126: {
+          title: "Restore Our Fortunes, O Lord",
+          subtitle: "A song of ascents",
+          verses: [
+            "When the Lord brought back the captives to Zion,\n    we were like men who dreamed.\nOur mouths were filled with laughter,\n    our tongues with songs of joy.\nThen it was said among the nations,\n    \"The Lord has done great things for them.\"\nThe Lord has done great things for us,\n    and we are filled with joy.",
+            "Restore our fortunes, O Lord,\n    like streams in the Negev.\nThose who sow in tears\n    will reap with songs of joy.\nHe who goes out weeping,\n    carrying seed to sow,\nwill return with songs of joy,\n    carrying sheaves with him.",
+          ],
+        },
+        127: {
+          title: "Unless the Lord Builds the House",
+          subtitle: "A song of ascents. Of Solomon.",
+          verses: [
+            "Unless the Lord builds the house,\n    its builders labor in vain.\nUnless the Lord watches over the city,\n    the watchmen stand guard in vain.",
+            "In vain you rise early\n    and stay up late,\ntoiling for food to eat—\n    for he grants sleep to those he loves.",
+            "Sons are a heritage from the Lord,\n    children a reward from him.\nLike arrows in the hands of a warrior\n    are sons born in one's youth.\nBlessed is the man\n    whose quiver is full of them.\nThey will not be put to shame\n    when they contend with their enemies in the gate.",
+          ],
+        },
+        128: {
+          title: "Blessed Is Everyone Who Fears the Lord",
+          subtitle: "A song of ascents",
+          verses: [
+            "Blessed are all who fear the Lord,\n    who walk in his ways.\nYou will eat the fruit of your labor;\n    blessings and prosperity will be yours.",
+            "Your wife will be like a fruitful vine\n    within your house;\nyour sons will be like olive shoots\n    around your table.",
+            "Thus is the man blessed\n    who fears the Lord.",
+            "May the Lord bless you from Zion\n    all the days of your life;\nmay you see the prosperity of Jerusalem,\n    and may you live to see your children's children.\nPeace be upon Israel.",
+          ],
+        },
+        129: {
+          title: "They Have Afflicted Me from My Youth",
+          subtitle: "A song of ascents",
+          verses: [
+            "\"They have greatly oppressed me from my youth\"—\n    let Israel say—\n\"they have greatly oppressed me from my youth,\n    but they have not gained the victory over me.\nPlowmen have plowed my back\n    and made their furrows long.\"",
+            "But the Lord is righteous;\n    he has cut me free from the cords of the wicked.",
+            "May all who hate Zion\n    be turned back in shame.\nMay they be like grass on the roof,\n    which withers before it can grow;\nwith it the reaper cannot fill his hands,\n    nor the one who gathers fill his arms.\nMay those who pass by not say,\n    \"The blessing of the Lord be upon you;\n    we bless you in the name of the Lord.\"",
+          ],
+        },
+        130: {
+          title: "My Soul Waits for the Lord",
+          subtitle: "A song of ascents",
+          verses: [
+            "Out of the depths I cry to you, O Lord;\n    O Lord, hear my voice.\nLet your ears be attentive\n    to my cry for mercy.",
+            "If you, O Lord, kept a record of sins,\n    O Lord, who could stand?\nBut with you there is forgiveness;\n    therefore you are feared.",
+            "I wait for the Lord, my soul waits,\n    and in his word I put my hope.\nMy soul waits for the Lord\n    more than watchmen wait for the morning,\n    more than watchmen wait for the morning.",
+            "O Israel, put your hope in the Lord,\n    for with the Lord is unfailing love\n    and with him is full redemption.\nHe himself will redeem Israel\n    from all their sins.",
+          ],
+        },
+        131: {
+          title: "I Have Calmed and Quieted My Soul",
+          subtitle: "A song of ascents. Of David.",
+          verses: [
+            "My heart is not proud, O Lord,\n    my eyes are not haughty;\nI do not concern myself with great matters\n    or things too wonderful for me.",
+            "But I have stilled and quieted my soul;\n    like a weaned child with its mother,\n    like a weaned child is my soul within me.",
+            "O Israel, put your hope in the Lord\n    both now and forevermore.",
+          ],
+        },
+      };
+
       const periodPsalms = {
         morning: [123, 125, 127],
         midday: [124, 129],
@@ -198,6 +291,7 @@
         evening: { start: 20 * 60 + 1, end: 3 * 60 },
         fontSize: "large",
         textMode: "jesus",
+        bibleVersion: "niv84",
         theme: "dark",
         manualPeriod: null
       };
@@ -275,7 +369,9 @@
       }
 
       function renderPsalm(psalmNum) {
-        const psalm = psalms[psalmNum];
+        const settings = JSON.parse(localStorage.getItem("appSettings")) || { bibleVersion: "niv84" };
+        const currentPsalms = settings.bibleVersion === "esv" ? psalmsESV : psalmsNIV84;
+        const psalm = currentPsalms[psalmNum];
         const psalmElement = document.createElement("div");
         psalmElement.className = "psalm";
 
@@ -385,11 +481,13 @@
         const appSettings = JSON.parse(localStorage.getItem("appSettings")) || {
           fontSize: "large",
           textMode: "jesus",
+          bibleVersion: "niv84",
           theme: "dark",
           manualPeriod: null
         };
         document.getElementById("font-size").value = appSettings.fontSize;
         document.getElementById("text-mode").value = appSettings.textMode;
+        document.getElementById("bible-version").value = appSettings.bibleVersion;
         document.getElementById("theme-select").value = appSettings.theme;
       }
 
@@ -425,6 +523,7 @@
         const appSettings = {
           fontSize: document.getElementById("font-size").value,
           textMode: document.getElementById("text-mode").value,
+          bibleVersion: document.getElementById("bible-version").value,
           theme: document.getElementById("theme-select").value,
           manualPeriod: currentAppSettings.manualPeriod
         };

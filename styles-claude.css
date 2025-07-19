@@ -524,3 +524,32 @@ body.light .nav-arrow:hover {
 body.light .settings-gear:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
+
+
+/* About link in settings */
+.about-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid;
+    border-color: inherit;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.about-link a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.about-link a:hover {
+    opacity: 0.8;
+}
+
+body.dark .about-link {
+    border-color: #444;
+}
+
+body.light .about-link {
+    border-color: #ddd;
+}

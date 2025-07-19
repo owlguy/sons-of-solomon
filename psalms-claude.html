@@ -1,361 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sons of Solomon Prayer Discipline</title>
-    <link rel="stylesheet" href="styles-claude.css">
-</head>
-<body class="dark">
+    <link rel="stylesheet" href="styles-claude.css" />
+  </head>
+  <body class="dark">
     <header>
-        <h1>Sons of Solomon Prayer Discipline</h1>
+      <h1>Sons of Solomon Psalms Prayer</h1>
+      <div class="period-navigation">
+        <button class="nav-arrow" onclick="navigatePeriod(-1)">←</button>
         <h2 id="period-title">Loading...</h2>
-        <div class="controls">
-            <button onclick="toggleSettings()">Settings</button>
-        </div>
+        <button class="nav-arrow" onclick="navigatePeriod(1)">→</button>
+      </div>
+      <div class="controls">
+        <button onclick="toggleSettings()">Settings</button>
+      </div>
     </header>
 
     <main>
-        <div id="psalms-content"></div>
+      <div id="psalms-content"></div>
     </main>
 
     <div id="settings" class="settings-panel">
-        <div class="settings-content">
-            <h3>Settings</h3>
-            <form id="time-form">
-                <div class="time-range">
-                    <label>Morning Prayer:</label>
-                    <div class="time-inputs">
-                        <input type="time" id="morning-start" value="03:01"> to
-                        <input type="time" id="morning-end" value="11:30">
-                    </div>
-                </div>
-                
-                <div class="time-range">
-                    <label>Midday Prayer:</label>
-                    <div class="time-inputs">
-                        <input type="time" id="midday-start" value="11:31"> to
-                        <input type="time" id="midday-end" value="15:00">
-                    </div>
-                </div>
-                
-                <div class="time-range">
-                    <label>Vespers Prayer:</label>
-                    <div class="time-inputs">
-                        <input type="time" id="vespers-start" value="15:01"> to
-                        <input type="time" id="vespers-end" value="20:00">
-                    </div>
-                </div>
-                
-                <div class="time-range">
-                    <label>Evening Prayer:</label>
-                    <div class="time-inputs">
-                        <input type="time" id="evening-start" value="20:01"> to
-                        <input type="time" id="evening-end" value="03:00">
-                    </div>
-                </div>
-                
-                <div class="setting-group">
-                    <label>Font Size:</label>
-                    <select id="font-size">
-                        <option value="small">Small</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="large">Large</option>
-                        <option value="extra-large">Extra Large</option>
-                    </select>
-                </div>
-                
-                <div class="setting-group">
-                    <label>Text Display:</label>
-                    <select id="text-mode">
-                        <option value="lord" selected>Display "the Lord"</option>
-                        <option value="jesus">Display "Jesus Christ"</option>
-                    </select>
-                </div>
-                
-                <div class="setting-group">
-                    <label>Theme:</label>
-                    <select id="theme-select">
-                        <option value="dark" selected>Dark</option>
-                        <option value="light">Light</option>
-                    </select>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="submit">Save Settings</button>
-                    <button type="button" onclick="toggleSettings()">Cancel</button>
-                </div>
-            </form>
-        </div>
+      <div class="settings-content">
+        <h3>Settings</h3>
+        <form id="time-form">
+          <div class="time-range">
+            <label>Morning Prayer:</label>
+            <div class="time-inputs">
+              <input type="time" id="morning-start" value="03:01" /> to
+              <input type="time" id="morning-end" value="11:30" />
+            </div>
+          </div>
+
+          <div class="time-range">
+            <label>Midday Prayer:</label>
+            <div class="time-inputs">
+              <input type="time" id="midday-start" value="11:31" /> to
+              <input type="time" id="midday-end" value="15:00" />
+            </div>
+          </div>
+
+          <div class="time-range">
+            <label>Vespers Prayer:</label>
+            <div class="time-inputs">
+              <input type="time" id="vespers-start" value="15:01" /> to
+              <input type="time" id="vespers-end" value="20:00" />
+            </div>
+          </div>
+
+          <div class="time-range">
+            <label>Evening Prayer:</label>
+            <div class="time-inputs">
+              <input type="time" id="evening-start" value="20:01" /> to
+              <input type="time" id="evening-end" value="03:00" />
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label>Font Size:</label>
+            <select id="font-size">
+              <option value="small">Small</option>
+              <option value="medium" selected>Medium</option>
+              <option value="large">Large</option>
+              <option value="extra-large">Extra Large</option>
+            </select>
+          </div>
+
+          <div class="setting-group">
+            <label>Text Display:</label>
+            <select id="text-mode">
+              <option value="lord" selected>Display "the Lord"</option>
+              <option value="jesus">Display "Jesus Christ"</option>
+            </select>
+          </div>
+
+          <div class="setting-group">
+            <label>Theme:</label>
+            <select id="theme-select">
+              <option value="dark" selected>Dark</option>
+              <option value="light">Light</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">Save Settings</button>
+            <button type="button" onclick="toggleSettings()">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <script>
-        const psalms = {
-            123: {
-                title: "Our Eyes Look to the Lord Our God",
-                subtitle: "A Song of Ascents",
-                verses: [
-                    "To you I lift up my eyes,\n    O you who are enthroned in the heavens!",
-                    "Behold, as the eyes of servants\n    look to the hand of their master,\nas the eyes of a maidservant\n    to the hand of her mistress,\nso our eyes look to the Lord our God,\n    till he has mercy upon us.",
-                    "Have mercy upon us, O Lord, have mercy upon us,\n    for we have had more than enough of contempt.\nOur soul has had more than enough\n    of the scorn of those who are at ease,\n    of the contempt of the proud."
-                ]
-            },
-            124: {
-                title: "Our Help Is in the Name of the Lord",
-                subtitle: "A Song of Ascents. Of David.",
-                verses: [
-                    "If it had not been the Lord who was on our side—\n    let Israel now say—\nif it had not been the Lord who was on our side\n    when people rose up against us,",
-                    "then they would have swallowed us up alive,\n    when their anger was kindled against us;\nthen the flood would have swept us away,\n    the torrent would have gone over us;\nthen over us would have gone\n    the raging waters.",
-                    "Blessed be the Lord,\n    who has not given us\n    as prey to their teeth!\nWe have escaped like a bird\n    from the snare of the fowlers;\nthe snare is broken,\n    and we have escaped!",
-                    "Our help is in the name of the Lord,\n    who made heaven and earth."
-                ]
-            },
-            125: {
-                title: "The Lord Surrounds His People",
-                subtitle: "A Song of Ascents",
-                verses: [
-                    "Those who trust in the Lord are like Mount Zion,\n    which cannot be moved, but abides forever.\nAs the mountains surround Jerusalem,\n    so the Lord surrounds his people,\n    from this time forth and forevermore.",
-                    "For the scepter of wickedness shall not rest\n    on the land allotted to the righteous,\nlest the righteous stretch out\n    their hands to do wrong.",
-                    "Do good, O Lord, to those who are good,\n    and to those who are upright in their hearts!\nBut those who turn aside to their crooked ways\n    the Lord will lead away with evildoers!\nPeace be upon Israel!"
-                ]
-            },
-            126: {
-                title: "Restore Our Fortunes, O Lord",
-                subtitle: "A Song of Ascents",
-                verses: [
-                    "When the Lord restored the fortunes of Zion,\n    we were like those who dream.\nThen our mouth was filled with laughter,\n    and our tongue with shouts of joy;\nthen they said among the nations,\n    \"The Lord has done great things for them.\"\nThe Lord has done great things for us;\n    we are glad.",
-                    "Restore our fortunes, O Lord,\n    like streams in the Negeb!\nThose who sow in tears\n    shall reap with shouts of joy!\nHe who goes out weeping,\n    bearing the seed for sowing,\nshall come home with shouts of joy,\n    bringing his sheaves with him."
-                ]
-            },
-            127: {
-                title: "Unless the Lord Builds the House",
-                subtitle: "A Song of Ascents. Of Solomon.",
-                verses: [
-                    "Unless the Lord builds the house,\n    those who build it labor in vain.\nUnless the Lord watches over the city,\n    the watchman stays awake in vain.",
-                    "It is in vain that you rise up early\n    and go late to rest,\n    eating the bread of anxious toil;\nfor he gives to his beloved sleep.",
-                    "Behold, children are a heritage from the Lord,\n    the fruit of the womb a reward.\nLike arrows in the hand of a warrior\n    are the children of one's youth.\nBlessed is the man\n    who fills his quiver with them!\nHe shall not be put to shame\n    when he speaks with his enemies in the gate."
-                ]
-            },
-            128: {
-                title: "Blessed Is Everyone Who Fears the Lord",
-                subtitle: "A Song of Ascents",
-                verses: [
-                    "Blessed is everyone who fears the Lord,\n    who walks in his ways!\nYou shall eat the fruit of the labor of your hands;\n    you shall be blessed, and it shall be well with you.",
-                    "Your wife will be like a fruitful vine\n    within your house;\nyour children will be like olive shoots\n    around your table.",
-                    "Behold, thus shall the man be blessed\n    who fears the Lord.",
-                    "The Lord bless you from Zion!\n    May you see the prosperity of Jerusalem\n    all the days of your life!\nMay you see your children's children!\n    Peace be upon Israel!"
-                ]
-            },
-            129: {
-                title: "They Have Afflicted Me from My Youth",
-                subtitle: "A Song of Ascents",
-                verses: [
-                    "\"Greatly have they afflicted me from my youth\"—\n    let Israel now say—\n\"Greatly have they afflicted me from my youth,\n    yet they have not prevailed against me.\nThe plowers plowed upon my back;\n    they made long their furrows.\"",
-                    "The Lord is righteous;\n    he has cut the cords of the wicked.\nMay all who hate Zion\n    be put to shame and turned backward!",
-                    "Let them be like the grass on the housetops,\n    which withers before it grows up,\nwith which the reaper does not fill his hand\n    nor the binder of sheaves his arms,\nnor do those who pass by say,\n    \"The blessing of the Lord be upon you!\n    We bless you in the name of the Lord!\""
-                ]
-            },
-            130: {
-                title: "My Soul Waits for the Lord",
-                subtitle: "A Song of Ascents",
-                verses: [
-                    "Out of the depths I cry to you, O Lord!\n    O Lord, hear my voice!\nLet your ears be attentive\n    to the voice of my pleas for mercy!",
-                    "If you, O Lord, should mark iniquities,\n    O Lord, who could stand?\nBut with you there is forgiveness,\n    that you may be feared.",
-                    "I wait for the Lord, my soul waits,\n    and in his word I hope;\nmy soul waits for the Lord\n    more than watchmen for the morning,\n    more than watchmen for the morning.",
-                    "O Israel, hope in the Lord!\n    For with the Lord there is steadfast love,\n    and with him is plentiful redemption.\nAnd he will redeem Israel\n    from all his iniquities."
-                ]
-            },
-            131: {
-                title: "I Have Calmed and Quieted My Soul",
-                subtitle: "A Song of Ascents. Of David.",
-                verses: [
-                    "O Lord, my heart is not lifted up;\n    my eyes are not raised too high;\nI do not occupy myself with things\n    too great and too marvelous for me.",
-                    "But I have calmed and quieted my soul,\n    like a weaned child with its mother;\n    like a weaned child is my soul within me.",
-                    "O Israel, hope in the Lord\n    from this time forth and forevermore."
-                ]
-            }
+      const psalms = {
+        123: {
+          title: "Our Eyes Look to the Lord Our God",
+          subtitle: "A Song of Ascents",
+          verses: [
+            "To you I lift up my eyes,\n    O you who are enthroned in the heavens!",
+            "Behold, as the eyes of servants\n    look to the hand of their master,\nas the eyes of a maidservant\n    to the hand of her mistress,\nso our eyes look to the Lord our God,\n    till he has mercy upon us.",
+            "Have mercy upon us, O Lord, have mercy upon us,\n    for we have had more than enough of contempt.\nOur soul has had more than enough\n    of the scorn of those who are at ease,\n    of the contempt of the proud.",
+          ],
+        },
+        124: {
+          title: "Our Help Is in the Name of the Lord",
+          subtitle: "A Song of Ascents. Of David.",
+          verses: [
+            "If it had not been the Lord who was on our side—\n    let Israel now say—\nif it had not been the Lord who was on our side\n    when people rose up against us,",
+            "then they would have swallowed us up alive,\n    when their anger was kindled against us;\nthen the flood would have swept us away,\n    the torrent would have gone over us;\nthen over us would have gone\n    the raging waters.",
+            "Blessed be the Lord,\n    who has not given us\n    as prey to their teeth!\nWe have escaped like a bird\n    from the snare of the fowlers;\nthe snare is broken,\n    and we have escaped!",
+            "Our help is in the name of the Lord,\n    who made heaven and earth.",
+          ],
+        },
+        125: {
+          title: "The Lord Surrounds His People",
+          subtitle: "A Song of Ascents",
+          verses: [
+            "Those who trust in the Lord are like Mount Zion,\n    which cannot be moved, but abides forever.\nAs the mountains surround Jerusalem,\n    so the Lord surrounds his people,\n    from this time forth and forevermore.",
+            "For the scepter of wickedness shall not rest\n    on the land allotted to the righteous,\nlest the righteous stretch out\n    their hands to do wrong.",
+            "Do good, O Lord, to those who are good,\n    and to those who are upright in their hearts!\nBut those who turn aside to their crooked ways\n    the Lord will lead away with evildoers!\nPeace be upon Israel!",
+          ],
+        },
+        126: {
+          title: "Restore Our Fortunes, O Lord",
+          subtitle: "A Song of Ascents",
+          verses: [
+            'When the Lord restored the fortunes of Zion,\n    we were like those who dream.\nThen our mouth was filled with laughter,\n    and our tongue with shouts of joy;\nthen they said among the nations,\n    "The Lord has done great things for them."\nThe Lord has done great things for us;\n    we are glad.',
+            "Restore our fortunes, O Lord,\n    like streams in the Negeb!\nThose who sow in tears\n    shall reap with shouts of joy!\nHe who goes out weeping,\n    bearing the seed for sowing,\nshall come home with shouts of joy,\n    bringing his sheaves with him.",
+          ],
+        },
+        127: {
+          title: "Unless the Lord Builds the House",
+          subtitle: "A Song of Ascents. Of Solomon.",
+          verses: [
+            "Unless the Lord builds the house,\n    those who build it labor in vain.\nUnless the Lord watches over the city,\n    the watchman stays awake in vain.",
+            "It is in vain that you rise up early\n    and go late to rest,\n    eating the bread of anxious toil;\nfor he gives to his beloved sleep.",
+            "Behold, children are a heritage from the Lord,\n    the fruit of the womb a reward.\nLike arrows in the hand of a warrior\n    are the children of one's youth.\nBlessed is the man\n    who fills his quiver with them!\nHe shall not be put to shame\n    when he speaks with his enemies in the gate.",
+          ],
+        },
+        128: {
+          title: "Blessed Is Everyone Who Fears the Lord",
+          subtitle: "A Song of Ascents",
+          verses: [
+            "Blessed is everyone who fears the Lord,\n    who walks in his ways!\nYou shall eat the fruit of the labor of your hands;\n    you shall be blessed, and it shall be well with you.",
+            "Your wife will be like a fruitful vine\n    within your house;\nyour children will be like olive shoots\n    around your table.",
+            "Behold, thus shall the man be blessed\n    who fears the Lord.",
+            "The Lord bless you from Zion!\n    May you see the prosperity of Jerusalem\n    all the days of your life!\nMay you see your children's children!\n    Peace be upon Israel!",
+          ],
+        },
+        129: {
+          title: "They Have Afflicted Me from My Youth",
+          subtitle: "A Song of Ascents",
+          verses: [
+            '"Greatly have they afflicted me from my youth"—\n    let Israel now say—\n"Greatly have they afflicted me from my youth,\n    yet they have not prevailed against me.\nThe plowers plowed upon my back;\n    they made long their furrows."',
+            "The Lord is righteous;\n    he has cut the cords of the wicked.\nMay all who hate Zion\n    be put to shame and turned backward!",
+            'Let them be like the grass on the housetops,\n    which withers before it grows up,\nwith which the reaper does not fill his hand\n    nor the binder of sheaves his arms,\nnor do those who pass by say,\n    "The blessing of the Lord be upon you!\n    We bless you in the name of the Lord!"',
+          ],
+        },
+        130: {
+          title: "My Soul Waits for the Lord",
+          subtitle: "A Song of Ascents",
+          verses: [
+            "Out of the depths I cry to you, O Lord!\n    O Lord, hear my voice!\nLet your ears be attentive\n    to the voice of my pleas for mercy!",
+            "If you, O Lord, should mark iniquities,\n    O Lord, who could stand?\nBut with you there is forgiveness,\n    that you may be feared.",
+            "I wait for the Lord, my soul waits,\n    and in his word I hope;\nmy soul waits for the Lord\n    more than watchmen for the morning,\n    more than watchmen for the morning.",
+            "O Israel, hope in the Lord!\n    For with the Lord there is steadfast love,\n    and with him is plentiful redemption.\nAnd he will redeem Israel\n    from all his iniquities.",
+          ],
+        },
+        131: {
+          title: "I Have Calmed and Quieted My Soul",
+          subtitle: "A Song of Ascents. Of David.",
+          verses: [
+            "O Lord, my heart is not lifted up;\n    my eyes are not raised too high;\nI do not occupy myself with things\n    too great and too marvelous for me.",
+            "But I have calmed and quieted my soul,\n    like a weaned child with its mother;\n    like a weaned child is my soul within me.",
+            "O Israel, hope in the Lord\n    from this time forth and forevermore.",
+          ],
+        },
+      };
+
+      const periodPsalms = {
+        morning: [123, 125, 127],
+        midday: [124, 129],
+        vespers: [126, 128],
+        evening: [130, 131],
+      };
+
+      const defaultSettings = {
+        morning: { start: 3 * 60 + 1, end: 11 * 60 + 30 },
+        midday: { start: 11 * 60 + 31, end: 15 * 60 },
+        vespers: { start: 15 * 60 + 1, end: 20 * 60 },
+        evening: { start: 20 * 60 + 1, end: 3 * 60 },
+        fontSize: "medium",
+        textMode: "lord",
+        theme: "dark",
+        manualPeriod: null
+      };
+
+      const periodOrder = ['morning', 'midday', 'vespers', 'evening'];
+
+      function timeToMinutes(timeStr) {
+        const [h, m] = timeStr.split(":").map(Number);
+        return h * 60 + m;
+      }
+
+      function minutesToTime(minutes) {
+        const h = Math.floor(minutes / 60)
+          .toString()
+          .padStart(2, "0");
+        const m = (minutes % 60).toString().padStart(2, "0");
+        return `${h}:${m}`;
+      }
+
+      function getCurrentPeriod() {
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+        const settings =
+          JSON.parse(localStorage.getItem("prayerTimes")) || defaultSettings;
+
+        if (
+          currentMinutes >= settings.morning.start &&
+          currentMinutes <= settings.morning.end
+        )
+          return "morning";
+        if (
+          currentMinutes >= settings.midday.start &&
+          currentMinutes <= settings.midday.end
+        )
+          return "midday";
+        if (
+          currentMinutes >= settings.vespers.start &&
+          currentMinutes <= settings.vespers.end
+        )
+          return "vespers";
+        if (
+          currentMinutes >= settings.evening.start ||
+          currentMinutes <= settings.evening.end
+        )
+          return "evening";
+        return "unknown";
+      }
+
+      function processText(text) {
+        const settings = JSON.parse(localStorage.getItem("appSettings")) || {
+          textMode: "lord",
         };
-
-        const periodPsalms = {
-            morning: [123, 125, 127],
-            midday: [124, 129],
-            vespers: [126, 128],
-            evening: [130, 131]
-        };
-
-        const defaultSettings = {
-            morning: { start: 3 * 60 + 1, end: 11 * 60 + 30 },
-            midday: { start: 11 * 60 + 31, end: 15 * 60 },
-            vespers: { start: 15 * 60 + 1, end: 20 * 60 },
-            evening: { start: 20 * 60 + 1, end: 3 * 60 },
-            fontSize: 'medium',
-            textMode: 'lord',
-            theme: 'dark'
-        };
-
-        function timeToMinutes(timeStr) {
-            const [h, m] = timeStr.split(':').map(Number);
-            return h * 60 + m;
+        if (settings.textMode === "jesus") {
+          return text
+            .replace(/\bthe Lord\b/g, "Jesus Christ")
+            .replace(/\bLord\b/g, "Jesus Christ");
+        } else {
+          // Wrap "Lord" in span with small-caps class
+          return text.replace(
+            /\bLord\b/g,
+            '<span class="lord-smallcaps">Lord</span>'
+          );
         }
+      }
 
-        function minutesToTime(minutes) {
-            const h = Math.floor(minutes / 60).toString().padStart(2, '0');
-            const m = (minutes % 60).toString().padStart(2, '0');
-            return `${h}:${m}`;
-        }
+      function formatVerseLines(verse) {
+        const lines = processText(verse).split("\n");
+        return lines
+          .map((line, index) => {
+            const className = index % 2 === 0 ? "line-even" : "line-odd";
+            return `<span class="${className}">${line}</span>`;
+          })
+          .join("<br>");
+      }
 
-        function getCurrentPeriod() {
-            const now = new Date();
-            const currentMinutes = now.getHours() * 60 + now.getMinutes();
-            const settings = JSON.parse(localStorage.getItem('prayerTimes')) || defaultSettings;
+      function renderPsalm(psalmNum) {
+        const psalm = psalms[psalmNum];
+        const psalmElement = document.createElement("div");
+        psalmElement.className = "psalm";
 
-            if (currentMinutes >= settings.morning.start && currentMinutes <= settings.morning.end)
-                return 'morning';
-            if (currentMinutes >= settings.midday.start && currentMinutes <= settings.midday.end)
-                return 'midday';
-            if (currentMinutes >= settings.vespers.start && currentMinutes <= settings.vespers.end)
-                return 'vespers';
-            if (currentMinutes >= settings.evening.start || currentMinutes <= settings.evening.end)
-                return 'evening';
-            return 'unknown';
-        }
-
-        function processText(text) {
-            const settings = JSON.parse(localStorage.getItem('appSettings')) || { textMode: 'lord' };
-            if (settings.textMode === 'jesus') {
-                return text.replace(/\bthe Lord\b/g, 'Jesus Christ').replace(/\bLord\b/g, 'Jesus Christ');
-            } else {
-                // Wrap "Lord" in span with small-caps class
-                return text.replace(/\bLord\b/g, '<span class="lord-smallcaps">Lord</span>');
-            }
-        }
-
-        function formatVerseLines(verse) {
-            const lines = processText(verse).split('\n');
-            return lines.map((line, index) => {
-                const className = index % 2 === 0 ? 'line-even' : 'line-odd';
-                return `<span class="${className}">${line}</span>`;
-            }).join('<br>');
-        }
-
-        function renderPsalm(psalmNum) {
-            const psalm = psalms[psalmNum];
-            const psalmElement = document.createElement('div');
-            psalmElement.className = 'psalm';
-            
-            psalmElement.innerHTML = `
+        psalmElement.innerHTML = `
                 <h3>Psalm ${psalmNum}</h3>
                 <h4>${processText(psalm.title)}</h4>
                 <p class="subtitle">${processText(psalm.subtitle)}</p>
-                ${psalm.verses.map(verse => `<p class="verse">${formatVerseLines(verse)}</p>`).join('')}
+                ${psalm.verses
+                  .map(
+                    (verse) => `<p class="verse">${formatVerseLines(verse)}</p>`
+                  )
+                  .join("")}
             `;
-            
-            return psalmElement;
+
+        return psalmElement;
+      }
+
+      function getDisplayPeriod() {
+        const appSettings = JSON.parse(localStorage.getItem('appSettings')) || { manualPeriod: null };
+        return appSettings.manualPeriod || getCurrentPeriod();
+      }
+
+      function navigatePeriod(direction) {
+        const currentPeriod = getDisplayPeriod();
+        const currentIndex = periodOrder.indexOf(currentPeriod === 'unknown' ? 'morning' : currentPeriod);
+        let newIndex = (currentIndex + direction + periodOrder.length) % periodOrder.length;
+        const newPeriod = periodOrder[newIndex];
+        
+        const appSettings = JSON.parse(localStorage.getItem('appSettings')) || {};
+        appSettings.manualPeriod = newPeriod;
+        localStorage.setItem('appSettings', JSON.stringify(appSettings));
+        
+        displayPsalms();
+      }
+
+      function displayPsalms() {
+        const period = getDisplayPeriod();
+        const title = document.getElementById("period-title");
+        const content = document.getElementById("psalms-content");
+        content.innerHTML = "";
+
+        if (period === "unknown") {
+          title.textContent = "Prayer Time";
+          content.innerHTML =
+            '<p class="no-psalms">No specific prayer period is currently active.</p>';
+          return;
         }
 
-        function displayPsalms() {
-            const period = getCurrentPeriod();
-            const title = document.getElementById('period-title');
-            const content = document.getElementById('psalms-content');
-            content.innerHTML = '';
+        const periodNames = {
+          morning: "Morning Prayer",
+          midday: "Midday Prayer",
+          vespers: "Vespers Prayer",
+          evening: "Evening Prayer",
+        };
 
-            if (period === 'unknown') {
-                title.textContent = 'Prayer Time';
-                content.innerHTML = '<p class="no-psalms">No specific prayer period is currently active.</p>';
-                return;
-            }
+        title.textContent = periodNames[period];
 
-            const periodNames = {
-                morning: 'Morning Prayer',
-                midday: 'Midday Prayer', 
-                vespers: 'Vespers Prayer',
-                evening: 'Evening Prayer'
-            };
-
-            title.textContent = periodNames[period];
-            
-            periodPsalms[period].forEach(psalmNum => {
-                content.appendChild(renderPsalm(psalmNum));
-            });
-        }
-
-
-        function toggleSettings() {
-            const settingsPanel = document.getElementById('settings');
-            settingsPanel.classList.toggle('show');
-        }
-
-        function applyFontSize() {
-            const settings = JSON.parse(localStorage.getItem('appSettings')) || { fontSize: 'medium' };
-            document.body.className = document.body.className.replace(/\bfont-\w+/g, '');
-            document.body.classList.add(`font-${settings.fontSize}`);
-        }
-
-        function loadSettings() {
-            const settings = JSON.parse(localStorage.getItem('prayerTimes')) || defaultSettings;
-            document.getElementById('morning-start').value = minutesToTime(settings.morning.start);
-            document.getElementById('morning-end').value = minutesToTime(settings.morning.end);
-            document.getElementById('midday-start').value = minutesToTime(settings.midday.start);
-            document.getElementById('midday-end').value = minutesToTime(settings.midday.end);
-            document.getElementById('vespers-start').value = minutesToTime(settings.vespers.start);
-            document.getElementById('vespers-end').value = minutesToTime(settings.vespers.end);
-            document.getElementById('evening-start').value = minutesToTime(settings.evening.start);
-            document.getElementById('evening-end').value = minutesToTime(settings.evening.end);
-            
-            const appSettings = JSON.parse(localStorage.getItem('appSettings')) || { fontSize: 'medium', textMode: 'lord', theme: 'dark' };
-            document.getElementById('font-size').value = appSettings.fontSize;
-            document.getElementById('text-mode').value = appSettings.textMode;
-            document.getElementById('theme-select').value = appSettings.theme;
-        }
-
-        document.getElementById('time-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const newSettings = {
-                morning: {
-                    start: timeToMinutes(document.getElementById('morning-start').value),
-                    end: timeToMinutes(document.getElementById('morning-end').value)
-                },
-                midday: {
-                    start: timeToMinutes(document.getElementById('midday-start').value),
-                    end: timeToMinutes(document.getElementById('midday-end').value)
-                },
-                vespers: {
-                    start: timeToMinutes(document.getElementById('vespers-start').value),
-                    end: timeToMinutes(document.getElementById('vespers-end').value)
-                },
-                evening: {
-                    start: timeToMinutes(document.getElementById('evening-start').value),
-                    end: timeToMinutes(document.getElementById('evening-end').value)
-                }
-            };
-            localStorage.setItem('prayerTimes', JSON.stringify(newSettings));
-            
-            const appSettings = {
-                fontSize: document.getElementById('font-size').value,
-                textMode: document.getElementById('text-mode').value,
-                theme: document.getElementById('theme-select').value
-            };
-            localStorage.setItem('appSettings', JSON.stringify(appSettings));
-            
-            // Apply theme
-            document.body.classList.remove('light', 'dark');
-            document.body.classList.add(appSettings.theme);
-            localStorage.setItem('theme', appSettings.theme);
-            
-            applyFontSize();
-            displayPsalms();
-            toggleSettings();
+        periodPsalms[period].forEach((psalmNum) => {
+          content.appendChild(renderPsalm(psalmNum));
         });
+      }
 
-        // Initialize
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.body.classList.add(savedTheme);
-        loadSettings();
+      function toggleSettings() {
+        const settingsPanel = document.getElementById("settings");
+        settingsPanel.classList.toggle("show");
+      }
+
+      function applyFontSize() {
+        const settings = JSON.parse(localStorage.getItem("appSettings")) || {
+          fontSize: "medium",
+        };
+        document.body.className = document.body.className.replace(
+          /\bfont-\w+/g,
+          ""
+        );
+        document.body.classList.add(`font-${settings.fontSize}`);
+      }
+
+      function loadSettings() {
+        const settings =
+          JSON.parse(localStorage.getItem("prayerTimes")) || defaultSettings;
+        document.getElementById("morning-start").value = minutesToTime(
+          settings.morning.start
+        );
+        document.getElementById("morning-end").value = minutesToTime(
+          settings.morning.end
+        );
+        document.getElementById("midday-start").value = minutesToTime(
+          settings.midday.start
+        );
+        document.getElementById("midday-end").value = minutesToTime(
+          settings.midday.end
+        );
+        document.getElementById("vespers-start").value = minutesToTime(
+          settings.vespers.start
+        );
+        document.getElementById("vespers-end").value = minutesToTime(
+          settings.vespers.end
+        );
+        document.getElementById("evening-start").value = minutesToTime(
+          settings.evening.start
+        );
+        document.getElementById("evening-end").value = minutesToTime(
+          settings.evening.end
+        );
+
+        const appSettings = JSON.parse(localStorage.getItem("appSettings")) || {
+          fontSize: "medium",
+          textMode: "lord",
+          theme: "dark",
+          manualPeriod: null
+        };
+        document.getElementById("font-size").value = appSettings.fontSize;
+        document.getElementById("text-mode").value = appSettings.textMode;
+        document.getElementById("theme-select").value = appSettings.theme;
+      }
+
+      document.getElementById("time-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const newSettings = {
+          morning: {
+            start: timeToMinutes(
+              document.getElementById("morning-start").value
+            ),
+            end: timeToMinutes(document.getElementById("morning-end").value),
+          },
+          midday: {
+            start: timeToMinutes(document.getElementById("midday-start").value),
+            end: timeToMinutes(document.getElementById("midday-end").value),
+          },
+          vespers: {
+            start: timeToMinutes(
+              document.getElementById("vespers-start").value
+            ),
+            end: timeToMinutes(document.getElementById("vespers-end").value),
+          },
+          evening: {
+            start: timeToMinutes(
+              document.getElementById("evening-start").value
+            ),
+            end: timeToMinutes(document.getElementById("evening-end").value),
+          },
+        };
+        localStorage.setItem("prayerTimes", JSON.stringify(newSettings));
+
+        const currentAppSettings = JSON.parse(localStorage.getItem("appSettings")) || {};
+        const appSettings = {
+          fontSize: document.getElementById("font-size").value,
+          textMode: document.getElementById("text-mode").value,
+          theme: document.getElementById("theme-select").value,
+          manualPeriod: currentAppSettings.manualPeriod
+        };
+        localStorage.setItem("appSettings", JSON.stringify(appSettings));
+
+        // Apply theme
+        document.body.classList.remove("light", "dark");
+        document.body.classList.add(appSettings.theme);
+        localStorage.setItem("theme", appSettings.theme);
+
         applyFontSize();
         displayPsalms();
+        toggleSettings();
+      });
 
-        // Update every minute
-        setInterval(displayPsalms, 60000);
+      // Initialize
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.body.classList.add(savedTheme);
+      loadSettings();
+      applyFontSize();
+      displayPsalms();
+
+      // Update every minute
+      setInterval(displayPsalms, 60000);
     </script>
-</body>
+  </body>
 </html>

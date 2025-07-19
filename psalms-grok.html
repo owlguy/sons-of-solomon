@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sons of Solomon Prayer Psalms</title>
+    <style>
+      body {
+        font-family: serif;
+        margin: 20px;
+        padding: 20px;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      body.dark {
+        background-color: #121212;
+        color: #e0e0e0;
+      }
+      body.light {
+        background-color: #ffffff;
+        color: #000000;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        text-align: center;
+      }
+      pre.psalm {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        margin-bottom: 2em;
+        padding: 1em;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.1
+        ); /* slight highlight in dark mode */
+      }
+      body.light pre.psalm {
+        border-color: #ddd;
+        background-color: #f9f9f9;
+      }
+      button {
+        margin: 10px;
+        padding: 10px;
+        cursor: pointer;
+      }
+      #settings {
+        display: none;
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      body.light #settings {
+        border-color: #ddd;
+        background-color: #f9f9f9;
+      }
+      body.dark #settings {
+        border-color: #444;
+        background-color: #1e1e1e;
+      }
+      form label {
+        display: block;
+        margin: 10px 0;
+      }
+      .time-inputs {
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body class="dark">
+    <h1>Sons of Solomon Prayer Discipline</h1>
+    <h2 id="period-title">Loading...</h2>
+    <div id="psalms-content"></div>
+    <button onclick="toggleTheme()">Toggle Light/Dark Mode</button>
+    <button onclick="toggleSettings()">Settings</button>
+    <div id="settings">
+      <h3>Customize Prayer Time Ranges</h3>
+      <form id="time-form">
+        <label
+          >Morning:
+          <div class="time-inputs">
+            <input type="time" id="morning-start" value="03:01" /> to
+            <input type="time" id="morning-end" value="11:30" /></div
+        ></label>
+        <label
+          >Midday:
+          <div class="time-inputs">
+            <input type="time" id="midday-start" value="11:31" /> to
+            <input type="time" id="midday-end" value="15:00" /></div
+        ></label>
+        <label
+          >Vespers:
+          <div class="time-inputs">
+            <input type="time" id="vespers-start" value="15:01" /> to
+            <input type="time" id="vespers-end" value="20:00" /></div
+        ></label>
+        <label
+          >Evening:
+          <div class="time-inputs">
+            <input type="time" id="evening-start" value="20:01" /> to
+            <input type="time" id="evening-end" value="03:00" /></div
+        ></label>
+        <button type="submit">Save Settings</button>
+      </form>
+    </div>
+
+    <script>
+      const psalms = {
+        123: `Our Eyes Look to the Lord Our God\n\nA Song of Ascents.\n\nTo you I lift up my eyes,\n    O you who are enthroned in the heavens!\nBehold, as the eyes of servants\n    look to the hand of their master,\nas the eyes of a maidservant\n    to the hand of her mistress,\nso our eyes look to the Lord our God,\n    till he has mercy upon us.\n\nHave mercy upon us, O Lord, have mercy upon us,\n    for we have had more than enough of contempt.\nOur soul has had more than enough\n    of the scorn of those who are at ease,\n    of the contempt of the proud.`,
+        124: `Our Help Is in the Name of the Lord\n\nA Song of Ascents. Of David.\n\nIf it had not been the Lord who was on our side—\n    let Israel now say—\nif it had not been the Lord who was on our side\n    when people rose up against us,\nthen they would have swallowed us up alive,\n    when their anger was kindled against us;\nthen the flood would have swept us away,\n    the torrent would have gone over us;\nthen over us would have gone\n    the raging waters.\n\nBlessed be the Lord,\n    who has not given us\n    as prey to their teeth!\nWe have escaped like a bird\n    from the snare of the fowlers;\nthe snare is broken,\n    and we have escaped!\n\nOur help is in the name of the Lord,\n    who made heaven and earth.`,
+        125: `The Lord Surrounds His People\n\nA Song of Ascents.\n\nThose who trust in the Lord are like Mount Zion,\n    which cannot be moved, but abides forever.\nAs the mountains surround Jerusalem,\n    so the Lord surrounds his people,\n    from this time forth and forevermore.\nFor the scepter of wickedness shall not rest\n    on the land allotted to the righteous,\nlest the righteous stretch out\n    their hands to do wrong.\nDo good, O Lord, to those who are good,\n    and to those who are upright in their hearts!\nBut those who turn aside to their crooked ways\n    the Lord will lead away with evildoers!\nPeace be upon Israel!`,
+        126: `Restore Our Fortunes, O Lord\n\nA Song of Ascents.\n\nWhen the Lord restored the fortunes of Zion,\n  we were like those who dream.\nThen our mouth was filled with laughter,\n  and our tongue with shouts of joy;\nthen they said among the nations,\n  “The Lord has done great things for them.”\nThe Lord has done great things for us;\n  we are glad.\n\nRestore our fortunes, O Lord,\n  like streams in the Negeb!\nThose who sow in tears\n  shall reap with shouts of joy!\nHe who goes out weeping,\n  bearing the seed for sowing,\nshall come home with shouts of joy,\n  bringing his sheaves with him.`,
+        127: `Unless the Lord Builds the House\n\nA Song of Ascents. Of Solomon.\n\nUnless the Lord builds the house,\n    those who build it labor in vain.\nUnless the Lord watches over the city,\n    the watchman stays awake in vain.\n\nIt is in vain that you rise up early\n    and go late to rest,\n    eating the bread of anxious toil;\nfor he gives to his beloved sleep.\n\nBehold, children are a heritage from the Lord,\n    the fruit of the womb a reward.\nLike arrows in the hand of a warrior\n    are the children of one’s youth.\nBlessed is the man\n    who fills his quiver with them!\nHe shall not be put to shame\n    when he speaks with his enemies in the gate.`,
+        128: `Blessed Is Everyone Who Fears the Lord\n\nA Song of Ascents.\n\nBlessed is everyone who fears the Lord,\n    who walks in his ways!\nYou shall eat the fruit of the labor of your hands;\n    you shall be blessed, and it shall be well with you.\n\nYour wife will be like a fruitful vine\n    within your house;\nyour children will be like olive shoots\n    around your table.\n\nBehold, thus shall the man be blessed\n    who fears the Lord.\n\nThe Lord bless you from Zion!\n    May you see the prosperity of Jerusalem\n    all the days of your life!\nMay you see your children’s children!\n    Peace be upon Israel!`,
+        129: `They Have Afflicted Me from My Youth\n\nA Song of Ascents.\n\n“Greatly have they afflicted me from my youth”—\n    let Israel now say—\n“Greatly have they afflicted me from my youth,\n    yet they have not prevailed against me.\nThe plowers plowed upon my back;\n    they made long their furrows.”\nThe Lord is righteous;\n    he has cut the cords of the wicked.\nMay all who hate Zion\n    be put to shame and turned backward!\nLet them be like the grass on the housetops,\n    which withers before it grows up,\nwith which the reaper does not fill his hand\n    nor the binder of sheaves his arms,\nnor do those who pass by say,\n    “The blessing of the Lord be upon you!\n    We bless you in the name of the Lord!”`,
+        130: `My Soul Waits for the Lord\n\nA Song of Ascents.\n\nOut of the depths I cry to you, O Lord!\n  O Lord, hear my voice!\nLet your ears be attentive\n  to the voice of my pleas for mercy!\n\nIf you, O Lord, should mark iniquities,\n  O Lord, who could stand?\nBut with you there is forgiveness,\n  that you may be feared.\n\nI wait for the Lord, my soul waits,\n  and in his word I hope;\nmy soul waits for the Lord\n  more than watchmen for the morning,\n  more than watchmen for the morning.\n\nO Israel, hope in the Lord!\nFor with the Lord there is steadfast love,\n  and with him is plentiful redemption.\nAnd he will redeem Israel\n  from all his iniquities.`,
+        131: `I Have Calmed and Quieted My Soul\n\nA Song of Ascents. Of David.\n\nO Lord, my heart is not lifted up;\n    my eyes are not raised too high;\nI do not occupy myself with things\n    too great and too marvelous for me.\n\nBut I have calmed and quieted my soul,\n    like a weaned child with its mother;\n    like a weaned child is my soul within me.\n\nO Israel, hope in the Lord\n    from this time forth and forevermore.`,
+      };
+
+      const periodPsalms = {
+        morning: [123, 125, 127],
+        midday: [124, 129],
+        vespers: [126, 128],
+        evening: [130, 131],
+      };
+
+      const defaultSettings = {
+        morning: { start: 3 * 60 + 1, end: 11 * 60 + 30 },
+        midday: { start: 11 * 60 + 31, end: 15 * 60 },
+        vespers: { start: 15 * 60 + 1, end: 20 * 60 },
+        evening: { start: 20 * 60 + 1, end: 3 * 60 },
+      };
+
+      function timeToMinutes(timeStr) {
+        const [h, m] = timeStr.split(":").map(Number);
+        return h * 60 + m;
+      }
+
+      function minutesToTime(minutes) {
+        const h = Math.floor(minutes / 60)
+          .toString()
+          .padStart(2, "0");
+        const m = (minutes % 60).toString().padStart(2, "0");
+        return `${h}:${m}`;
+      }
+
+      function getCurrentPeriod() {
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+        let settings =
+          JSON.parse(localStorage.getItem("prayerTimes")) || defaultSettings;
+
+        if (
+          currentMinutes >= settings.morning.start &&
+          currentMinutes <= settings.morning.end
+        )
+          return "morning";
+        if (
+          currentMinutes >= settings.midday.start &&
+          currentMinutes <= settings.midday.end
+        )
+          return "midday";
+        if (
+          currentMinutes >= settings.vespers.start &&
+          currentMinutes <= settings.vespers.end
+        )
+          return "vespers";
+        if (
+          currentMinutes >= settings.evening.start ||
+          currentMinutes <= settings.evening.end
+        )
+          return "evening";
+        return "unknown";
+      }
+
+      function displayPsalms() {
+        const period = getCurrentPeriod();
+        const title = document.getElementById("period-title");
+        const content = document.getElementById("psalms-content");
+        content.innerHTML = "";
+        if (period === "unknown") {
+          title.textContent = "Unknown Prayer Time";
+          return;
+        }
+        title.textContent = `${
+          period.charAt(0).toUpperCase() + period.slice(1)
+        } Psalms`;
+        periodPsalms[period].forEach((num) => {
+          const pre = document.createElement("pre");
+          pre.classList.add("psalm");
+          pre.textContent = `Psalm ${num}\n\n` + psalms[num];
+          content.appendChild(pre);
+        });
+      }
+
+      function toggleTheme() {
+        const theme =
+          localStorage.getItem("theme") === "light" ? "dark" : "light";
+        document.body.classList.remove("light", "dark");
+        document.body.classList.add(theme);
+        localStorage.setItem("theme", theme);
+      }
+
+      function toggleSettings() {
+        const settingsDiv = document.getElementById("settings");
+        settingsDiv.style.display =
+          settingsDiv.style.display === "none" ? "block" : "none";
+      }
+
+      function loadSettings() {
+        const settings =
+          JSON.parse(localStorage.getItem("prayerTimes")) || defaultSettings;
+        document.getElementById("morning-start").value = minutesToTime(
+          settings.morning.start
+        );
+        document.getElementById("morning-end").value = minutesToTime(
+          settings.morning.end
+        );
+        document.getElementById("midday-start").value = minutesToTime(
+          settings.midday.start
+        );
+        document.getElementById("midday-end").value = minutesToTime(
+          settings.midday.end
+        );
+        document.getElementById("vespers-start").value = minutesToTime(
+          settings.vespers.start
+        );
+        document.getElementById("vespers-end").value = minutesToTime(
+          settings.vespers.end
+        );
+        document.getElementById("evening-start").value = minutesToTime(
+          settings.evening.start
+        );
+        document.getElementById("evening-end").value = minutesToTime(
+          settings.evening.end
+        );
+      }
+
+      document.getElementById("time-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const newSettings = {
+          morning: {
+            start: timeToMinutes(
+              document.getElementById("morning-start").value
+            ),
+            end: timeToMinutes(document.getElementById("morning-end").value),
+          },
+          midday: {
+            start: timeToMinutes(document.getElementById("midday-start").value),
+            end: timeToMinutes(document.getElementById("midday-end").value),
+          },
+          vespers: {
+            start: timeToMinutes(
+              document.getElementById("vespers-start").value
+            ),
+            end: timeToMinutes(document.getElementById("vespers-end").value),
+          },
+          evening: {
+            start: timeToMinutes(
+              document.getElementById("evening-start").value
+            ),
+            end: timeToMinutes(document.getElementById("evening-end").value),
+          },
+        };
+        localStorage.setItem("prayerTimes", JSON.stringify(newSettings));
+        displayPsalms();
+        toggleSettings();
+      });
+
+      // Initialize
+      if (!localStorage.getItem("theme")) {
+        localStorage.setItem("theme", "dark");
+      }
+      document.body.classList.add(localStorage.getItem("theme"));
+      loadSettings();
+      displayPsalms();
+    </script>
+  </body>
+</html>

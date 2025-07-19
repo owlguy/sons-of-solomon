@@ -8,14 +8,14 @@
   </head>
   <body class="dark">
     <header>
-      <h1>Sons of Solomon Psalms Prayer</h1>
+      <div class="title-with-settings">
+        <h1>Sons of Solomon Psalms Prayer</h1>
+        <button class="settings-gear" onclick="toggleSettings()" title="Settings">⚙️</button>
+      </div>
       <div class="period-navigation">
         <button class="nav-arrow" onclick="navigatePeriod(-1)">←</button>
         <h2 id="period-title">Loading...</h2>
         <button class="nav-arrow" onclick="navigatePeriod(1)">→</button>
-      </div>
-      <div class="controls">
-        <button onclick="toggleSettings()">Settings</button>
       </div>
     </header>
 
@@ -63,17 +63,17 @@
             <label>Font Size:</label>
             <select id="font-size">
               <option value="small">Small</option>
-              <option value="medium" selected>Medium</option>
-              <option value="large">Large</option>
+              <option value="medium">Medium</option>
+              <option value="large" selected>Large</option>
               <option value="extra-large">Extra Large</option>
             </select>
           </div>
 
           <div class="setting-group">
-            <label>Text Display:</label>
+            <label>Divine Name:</label>
             <select id="text-mode">
-              <option value="lord" selected>Display "the Lord"</option>
-              <option value="jesus">Display "Jesus Christ"</option>
+              <option value="lord">Display "the Lord"</option>
+              <option value="jesus" selected>Display "Jesus Christ"</option>
             </select>
           </div>
 
@@ -192,8 +192,8 @@
         midday: { start: 11 * 60 + 31, end: 15 * 60 },
         vespers: { start: 15 * 60 + 1, end: 20 * 60 },
         evening: { start: 20 * 60 + 1, end: 3 * 60 },
-        fontSize: "medium",
-        textMode: "lord",
+        fontSize: "large",
+        textMode: "jesus",
         theme: "dark",
         manualPeriod: null
       };
@@ -244,12 +244,13 @@
 
       function processText(text) {
         const settings = JSON.parse(localStorage.getItem("appSettings")) || {
-          textMode: "lord",
+          textMode: "jesus",
         };
         if (settings.textMode === "jesus") {
           return text
             .replace(/\bthe Lord\b/g, "Jesus Christ")
-            .replace(/\bLord\b/g, "Jesus Christ");
+            .replace(/\bLord\b/g, "Jesus Christ")
+            .replace(/\bThe Jesus Christ\b/g, "Jesus Christ");
         } else {
           // Wrap "Lord" in span with small-caps class
           return text.replace(
@@ -320,10 +321,10 @@
         }
 
         const periodNames = {
-          morning: "Morning Prayer",
-          midday: "Midday Prayer",
-          vespers: "Vespers Prayer",
-          evening: "Evening Prayer",
+          morning: "Morning",
+          midday: "Midday",
+          vespers: "Vespers",
+          evening: "Evening",
         };
 
         title.textContent = periodNames[period];
@@ -340,7 +341,7 @@
 
       function applyFontSize() {
         const settings = JSON.parse(localStorage.getItem("appSettings")) || {
-          fontSize: "medium",
+          fontSize: "large",
         };
         document.body.className = document.body.className.replace(
           /\bfont-\w+/g,
@@ -378,8 +379,8 @@
         );
 
         const appSettings = JSON.parse(localStorage.getItem("appSettings")) || {
-          fontSize: "medium",
-          textMode: "lord",
+          fontSize: "large",
+          textMode: "jesus",
           theme: "dark",
           manualPeriod: null
         };
